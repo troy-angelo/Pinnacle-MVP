@@ -13,7 +13,7 @@ export default function NameScreen() {
 
   const next = () => {
     onboardingStore.update({ firstName: first.trim(), lastName: last.trim() });
-    router.push('/onboarding/birthday');
+    router.push('/onboarding/birthday' as any);
   };
 
   return (

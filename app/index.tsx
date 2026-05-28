@@ -50,7 +50,7 @@ export default function Welcome() {
             <Ionicons name="arrow-forward" size={18} color="#fff" />
           </Pressable>
 
-          <Pressable onPress={() => router.push('/(tabs)/dashboard')} style={{ paddingVertical: 14, alignItems: 'center' }}>
+          <Pressable onPress={() => router.push('/(tabs)/dashboard' as any)} style={{ paddingVertical: 14, alignItems: 'center' }}>
             <Text style={{ color: colors.textSecondary, fontSize: 14 }}>I already have an account</Text>
           </Pressable>
         </View>

@@ -27,7 +27,7 @@ export default function WelcomeScreen() {
           </Text>
         </View>
         <Pressable
-          onPress={() => router.replace('/(tabs)/dashboard')}
+          onPress={() => router.replace('/(tabs)/dashboard' as any)}
           style={({ pressed }) => ({
             backgroundColor: colors.primary,
             paddingVertical: 16,

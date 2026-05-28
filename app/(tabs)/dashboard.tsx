@@ -75,23 +75,67 @@ export default function Dashboard() {
         </View>
 
         {/* Race countdown */}
-        {nextRace && (
+        {nextRace ? (
           <View style={{ paddingHorizontal: 20, marginTop: 16 }}>
-            <View style={{ backgroundColor: colors.bgCard, borderRadius: 18, padding: 18, borderWidth: 1, borderColor: colors.border, flexDirection: 'row', alignItems: 'center', gap: 16 }}>
-              <View style={{ width: 64, height: 64, borderRadius: 16, backgroundColor: 'rgba(14,158,142,0.15)', alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={{ color: colors.primary, fontSize: 22, fontWeight: '800' }}>{daysUntil}</Text>
-                <Text style={{ color: colors.primary, fontSize: 9, fontWeight: '700', letterSpacing: 0.5 }}>DAYS</Text>
+            <Pressable
+              onPress={() => router.push('/(tabs)/calendar' as any)}
+              style={({ pressed }) => ({
+                borderRadius: 20,
+                overflow: 'hidden',
+                backgroundColor: '#0F172A',
+                borderWidth: 1,
+                borderColor: 'rgba(14,158,142,0.35)',
+                opacity: pressed ? 0.92 : 1,
+              })}
+            >
+              <View style={{ position: 'absolute', top: -40, right: -20, width: 140, height: 140, borderRadius: 70, backgroundColor: 'rgba(14,158,142,0.18)' }} />
+              <View style={{ position: 'absolute', bottom: -30, left: -10, width: 90, height: 90, borderRadius: 45, backgroundColor: 'rgba(14,158,142,0.10)' }} />
+              <View style={{ padding: 18, flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+                <View style={{ width: 76, height: 76, borderRadius: 18, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' }}>
+                  <Text style={{ color: '#fff', fontSize: 28, fontWeight: '900', letterSpacing: -0.5, lineHeight: 30 }}>{daysUntil}</Text>
+                  <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: 9, fontWeight: '800', letterSpacing: 1, marginTop: 2 }}>{daysUntil === 1 ? 'DAY' : 'DAYS'}</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 6 }}>
+                    <Ionicons name="flag" size={11} color={colors.primary} />
+                    <Text style={{ color: colors.primary, fontSize: 10, fontWeight: '800', letterSpacing: 1.2 }}>NEXT RACE</Text>
+                  </View>
+                  <Text style={{ color: colors.text, fontSize: 17, fontWeight: '800', marginBottom: 4 }} numberOfLines={1}>{nextRace.name}</Text>
+                  <Text style={{ color: colors.textSecondary, fontSize: 12 }} numberOfLines={1}>
+                    {new Date(nextRace.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                    {nextRace.distance ? ` • ${nextRace.distance}` : ''}
+                  </Text>
+                </View>
+                <Ionicons name="chevron-forward" size={20} color={colors.textTertiary} />
+              </View>
+            </Pressable>
+          </View>
+        ) : (
+          <View style={{ paddingHorizontal: 20, marginTop: 16 }}>
+            <Pressable
+              onPress={() => router.push('/(tabs)/calendar' as any)}
+              style={({ pressed }) => ({
+                borderRadius: 20,
+                padding: 18,
+                backgroundColor: colors.bgCard,
+                borderWidth: 1,
+                borderColor: colors.border,
+                borderStyle: 'dashed',
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 14,
+                opacity: pressed ? 0.85 : 1,
+              })}
+            >
+              <View style={{ width: 48, height: 48, borderRadius: 14, backgroundColor: 'rgba(14,158,142,0.15)', alignItems: 'center', justifyContent: 'center' }}>
+                <Ionicons name="flag-outline" size={22} color={colors.primary} />
               </View>
               <View style={{ flex: 1 }}>
-                <Text style={{ color: colors.textSecondary, fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 4 }}>NEXT RACE</Text>
-                <Text style={{ color: colors.text, fontSize: 16, fontWeight: '800', marginBottom: 2 }} numberOfLines={1}>{nextRace.name}</Text>
-                <Text style={{ color: colors.textSecondary, fontSize: 12 }}>
-                  {new Date(nextRace.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                  {nextRace.distance ? ` • ${nextRace.distance}` : ''}
-                </Text>
+                <Text style={{ color: colors.text, fontSize: 15, fontWeight: '800' }}>Add your next race</Text>
+                <Text style={{ color: colors.textSecondary, fontSize: 12, marginTop: 2 }}>Track countdown and stay focused</Text>
               </View>
               <Ionicons name="chevron-forward" size={20} color={colors.textTertiary} />
-            </View>
+            </Pressable>
           </View>
         )}
 
@@ -114,7 +158,7 @@ export default function Dashboard() {
             <Pressable><Text style={{ color: colors.primary, fontSize: 13, fontWeight: '700' }}>See all</Text></Pressable>
           </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 14, paddingBottom: 4, gap: 12 }}>
-            {curateForAthlete(profile.goal, profile.experience).map((p) => <ProCard key={p.id} pro={p} onPress={() => router.push({ pathname: '/coach/[id]', params: { id: p.id } })} />)}
+            {curateForAthlete(profile.goal, profile.experience).map((p) => <ProCard key={p.id} pro={p} onPress={() => router.push({ pathname: '/coach/[id]' as any, params: { id: p.id } })} />)}
           </ScrollView>
         </View>
 
@@ -122,10 +166,10 @@ export default function Dashboard() {
         <View style={{ paddingHorizontal: 20, marginTop: 24 }}>
           <Text style={{ color: colors.text, fontSize: 18, fontWeight: '800', letterSpacing: -0.3, marginBottom: 12 }}>Quick access</Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
-            <QuickLink label="My Calendar" icon="calendar" onPress={() => router.push('/(tabs)/calendar')} />
-            <QuickLink label="My Team" icon="people" onPress={() => router.push('/(tabs)/team')} />
-            <QuickLink label="My Files" icon="folder" onPress={() => router.push('/(tabs)/files')} />
-            <QuickLink label="Injury Tracker" icon="body" onPress={() => router.push('/(tabs)/injury')} />
+            <QuickLink label="My Calendar" icon="calendar" onPress={() => router.push('/(tabs)/calendar' as any)} />
+            <QuickLink label="My Team" icon="people" onPress={() => router.push('/(tabs)/team' as any)} />
+            <QuickLink label="My Files" icon="folder" onPress={() => router.push('/(tabs)/files' as any)} />
+            <QuickLink label="Injury Tracker" icon="body" onPress={() => router.push('/(tabs)/injury' as any)} />
           </View>
         </View>
       </ScrollView>

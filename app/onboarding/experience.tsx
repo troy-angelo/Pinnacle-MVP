@@ -27,7 +27,7 @@ export default function ExperienceScreen() {
 
   const next = () => {
     onboardingStore.update({ experience: level, goal });
-    router.push('/onboarding/races');
+    router.push('/onboarding/races' as any);
   };
 
   return (

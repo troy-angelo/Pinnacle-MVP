@@ -37,7 +37,7 @@ export default function ProfileSetupScreen() {
 
   const next = () => {
     onboardingStore.update({ avatarUri: uri });
-    router.push('/onboarding/experience');
+    router.push('/onboarding/experience' as any);
   };
 
   return (

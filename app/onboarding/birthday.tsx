@@ -17,7 +17,7 @@ export default function BirthdayScreen() {
   const next = () => {
     const iso = `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`;
     onboardingStore.update({ birthday: iso });
-    router.push('/onboarding/profile-setup');
+    router.push('/onboarding/profile-setup' as any);
   };
 
   return (

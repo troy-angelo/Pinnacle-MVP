@@ -27,7 +27,7 @@ export default function RacesScreen() {
     setName(''); setM(''); setD(''); setY(''); setDistance(undefined); setAdding(false);
   };
 
-  const finish = () => router.push('/onboarding/welcome');
+  const finish = () => router.push('/onboarding/welcome' as any);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.bg }}>

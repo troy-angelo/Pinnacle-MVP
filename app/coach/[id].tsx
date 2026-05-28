@@ -37,7 +37,7 @@ export default function CoachProfile() {
       return;
     }
     Alert.alert('Booked!', `${pro.name} • ${slot}`, [
-      { text: 'OK', onPress: () => router.replace('/(tabs)/dashboard') },
+      { text: 'OK', onPress: () => router.replace('/(tabs)/dashboard' as any) },
     ]);
   };
 
