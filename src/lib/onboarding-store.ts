@@ -1,5 +1,5 @@
 // Simple in-memory athlete store. Holds onboarding data plus runtime state
-// for saved team members and shared files.
+// for saved team members, shared files, and injuries.
 
 export type ExperienceLevel = 'Beginner' | 'Recreational' | 'Competitive';
 export type Goal =
@@ -34,6 +34,55 @@ export type SharedFile = {
   pages?: number;
 };
 
+export type BodyRegionId =
+  | 'head'
+  | 'neck'
+  | 'left-shoulder'
+  | 'right-shoulder'
+  | 'chest'
+  | 'left-arm'
+  | 'right-arm'
+  | 'core'
+  | 'lower-back'
+  | 'left-hip'
+  | 'right-hip'
+  | 'left-quad'
+  | 'right-quad'
+  | 'left-hamstring'
+  | 'right-hamstring'
+  | 'left-knee'
+  | 'right-knee'
+  | 'left-calf'
+  | 'right-calf'
+  | 'left-shin'
+  | 'right-shin'
+  | 'left-ankle'
+  | 'right-ankle'
+  | 'left-foot'
+  | 'right-foot';
+
+export type InjuryStatus = 'active' | 'recovering' | 'resolved';
+export type InjuryType =
+  | 'Pain'
+  | 'Tightness'
+  | 'Strain'
+  | 'Sprain'
+  | 'Soreness'
+  | 'Other';
+
+export type Injury = {
+  id: string;
+  region: BodyRegionId;
+  regionLabel: string;
+  side: 'front' | 'back';
+  type: InjuryType;
+  severity: number; // 1-10
+  notes?: string;
+  status: InjuryStatus;
+  loggedAt: string; // ISO
+  updatedAt: string; // ISO
+};
+
 export type AthleteProfile = {
   firstName: string;
   lastName: string;
@@ -44,6 +93,7 @@ export type AthleteProfile = {
   races: Race[];
   team: SavedPro[];
   files: SharedFile[];
+  injuries: Injury[];
 };
 
 const seedFiles: SharedFile[] = [
@@ -108,12 +158,40 @@ const seedTeam: SavedPro[] = [
   },
 ];
 
+const seedInjuries: Injury[] = [
+  {
+    id: 'inj1',
+    region: 'right-knee',
+    regionLabel: 'Right Knee',
+    side: 'front',
+    type: 'Pain',
+    severity: 4,
+    notes: 'Sharp pain on descents. Started after long run last weekend.',
+    status: 'active',
+    loggedAt: new Date(Date.now() - 86400000 * 3).toISOString(),
+    updatedAt: new Date(Date.now() - 86400000 * 1).toISOString(),
+  },
+  {
+    id: 'inj2',
+    region: 'left-calf',
+    regionLabel: 'Left Calf',
+    side: 'back',
+    type: 'Tightness',
+    severity: 2,
+    notes: 'Tight after speed work. Stretching helps.',
+    status: 'recovering',
+    loggedAt: new Date(Date.now() - 86400000 * 8).toISOString(),
+    updatedAt: new Date(Date.now() - 86400000 * 2).toISOString(),
+  },
+];
+
 let profile: AthleteProfile = {
   firstName: '',
   lastName: '',
   races: [],
   team: seedTeam,
   files: seedFiles,
+  injuries: seedInjuries,
 };
 
 type Listener = (p: AthleteProfile) => void;
@@ -163,8 +241,35 @@ export const onboardingStore = {
     profile = { ...profile, files: profile.files.filter((f) => f.id !== id) };
     emit();
   },
+  addInjury(injury: Injury) {
+    profile = { ...profile, injuries: [injury, ...profile.injuries] };
+    emit();
+  },
+  updateInjury(id: string, patch: Partial<Injury>) {
+    profile = {
+      ...profile,
+      injuries: profile.injuries.map((i) =>
+        i.id === id ? { ...i, ...patch, updatedAt: new Date().toISOString() } : i,
+      ),
+    };
+    emit();
+  },
+  removeInjury(id: string) {
+    profile = {
+      ...profile,
+      injuries: profile.injuries.filter((i) => i.id !== id),
+    };
+    emit();
+  },
   reset() {
-    profile = { firstName: '', lastName: '', races: [], team: seedTeam, files: seedFiles };
+    profile = {
+      firstName: '',
+      lastName: '',
+      races: [],
+      team: seedTeam,
+      files: seedFiles,
+      injuries: seedInjuries,
+    };
     emit();
   },
   subscribe(l: Listener) {
