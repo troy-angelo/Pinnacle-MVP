@@ -1,4 +1,4 @@
-# Pinnacle
+# Pinnacle Mobile
 
 This project was created with Shipper.
 

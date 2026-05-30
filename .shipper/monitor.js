@@ -1,8 +1,8 @@
-// shipper-monitor-version: 2026-05-04-comments-v6
+// shipper-monitor-version: 2026-05-28-comments-green-cursor-v1
 (function () {
   "use strict";
 
-  const MONITOR_VERSION = "2026-05-04-comments-v6";
+  const MONITOR_VERSION = "2026-05-28-comments-green-cursor-v1";
   const PREVIEW_POPUP_MESSAGE_TYPE = "PREVIEW_POPUP_REQUESTED";
   const PREVIEW_POPUP_WINDOW_NAME = "shipper-preview-popup";
   const OTT_QUERY_PARAM = "ott";
@@ -19,7 +19,7 @@
     enabled: false,
   };
   const COMMENT_CURSOR =
-    'url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%233276FF%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M21%2015a2%202%200%200%201-2%202H7l-4%204V5a2%202%200%200%201%202-2h14a2%202%200%200%201%202%202z%27/%3E%3C/svg%3E") 4 4, auto';
+    'url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%231E9A80%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M21%2015a2%202%200%200%201-2%202H7l-4%204V5a2%202%200%200%201%202-2h14a2%202%200%200%201%202%202z%27/%3E%3C/svg%3E") 4 4, auto';
   var commentCursorStyleElement = null;
 
   // Post message to parent window
